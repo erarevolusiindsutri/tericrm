@@ -1,48 +1,71 @@
 import { Card, CardContent } from "./ui/card"
-import { Users, ShoppingCart, DollarSign, Store } from 'lucide-react';
+import { Users, Target, DollarSign, Star } from 'lucide-react';
+import { motion } from 'framer-motion';
+
+const container = {
+  hidden: { opacity: 0 },
+  show: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.1
+    }
+  }
+};
+
+const item = {
+  hidden: { opacity: 0, y: 20 },
+  show: { opacity: 1, y: 0 }
+};
 
 export default function Stats() {
   const stats = [
     {
-      label: "Visitors right now",
-      value: "781",
+      label: "Total Customers",
+      value: "24,781",
       icon: Users
     },
     {
-      label: "Total sessions",
-      value: "46,268",
-      icon: Store
+      label: "Lead Conversion",
+      value: "68.5%",
+      icon: Target
     },
     {
-      label: "Total sales",
+      label: "Revenue MRR",
       value: "$148,229",
       icon: DollarSign
     },
     {
-      label: "Total orders",
-      value: "1,912",
-      icon: ShoppingCart
+      label: "Avg. Satisfaction",
+      value: "4.8/5",
+      icon: Star
     }
   ];
 
   return (
-    <>
+    <motion.div 
+      variants={container}
+      initial="hidden"
+      animate="show"
+      className="grid grid-cols-4 gap-2 w-full"
+    >
       {stats.map((stat, index) => {
         const Icon = stat.icon;
         return (
-          <Card key={index} className="bg-black/40 backdrop-blur-sm border-white/10">
-            <CardContent className="p-2 flex items-center gap-2">
-              <div className="p-1.5 rounded-lg bg-white/5">
-                <Icon className="w-3 h-3 text-white/70" />
-              </div>
-              <div>
-                <p className="text-[9px] font-medium text-gray-400">{stat.label}</p>
-                <p className="text-sm font-bold text-white">{stat.value}</p>
-              </div>
-            </CardContent>
-          </Card>
+          <motion.div key={index} variants={item}>
+            <Card className="bg-black/40 backdrop-blur-sm border-white/10 hover:border-white/20 transition-colors">
+              <CardContent className="p-2 flex items-center gap-2">
+                <div className="p-1.5 rounded-lg bg-white/5">
+                  <Icon className="w-3 h-3 text-white/70" />
+                </div>
+                <div>
+                  <p className="text-[9px] font-light text-gray-400">{stat.label}</p>
+                  <p className="text-sm font-mono text-white">{stat.value}</p>
+                </div>
+              </CardContent>
+            </Card>
+          </motion.div>
         );
       })}
-    </>
+    </motion.div>
   );
 }
