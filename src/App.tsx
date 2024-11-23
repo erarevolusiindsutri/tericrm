@@ -1,6 +1,7 @@
 import { ThreeScene } from './components/Globe';
 import LiveAI from './components/LiveAI';
 import AILocations from './components/AILocations';
+import LeadSummary from './components/LeadSummary';
 import { createContext, useRef } from 'react';
 
 // Create a context for the globe focus
@@ -18,18 +19,8 @@ export default function App() {
             <ThreeScene />
           </div>
 
-          {/* Floating UI container */}
-          <div className="absolute inset-0 flex items-center justify-center z-10 pointer-events-none">
-            <div className="max-w-[1200px] w-full mx-auto px-4">
-              {/* Customer Message */}
-              <div className="absolute top-8 right-8 pointer-events-auto">
-                <div className="text-right">
-                  <p className="text-sm font-light opacity-80">Most customer need</p>
-                  <p className="text-sm font-light opacity-80">help with jhony</p>
-                </div>
-              </div>
-            </div>
-          </div>
+          {/* Lead Summary */}
+          <LeadSummary />
 
           {/* AI Locations */}
           <div className="relative z-20">
