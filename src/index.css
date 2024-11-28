@@ -78,3 +78,9 @@ body {
   gap: 1rem;
   grid-template-rows: auto 1fr auto;
 }
+
+@media (max-width: 640px) {
+  .location-cards {
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  }
+}
