@@ -33,6 +33,22 @@ export default function LiveAI() {
       aiResponse: "Based on your data, implementing a loyalty program could increase retention by 24%",
       time: "2m ago",
       status: "completed"
+    },
+    {
+      id: 4,
+      type: "Sales",
+      message: "Need help with sales forecasting",
+      aiResponse: "Looking at your historical data, we project a 15% growth in Q2",
+      time: "5m ago",
+      status: "completed"
+    },
+    {
+      id: 5,
+      type: "Customer Service",
+      message: "Customer feedback analysis needed",
+      aiResponse: "Analyzing sentiment patterns in recent reviews...",
+      time: "7m ago",
+      status: "typing"
     }
   ];
 
@@ -151,59 +167,61 @@ export default function LiveAI() {
                   initial="collapsed"
                   animate="expanded"
                   exit="collapsed"
-                  className="flex-1 overflow-y-auto hide-scrollbar mt-3 space-y-1"
+                  className="flex-1 mt-3 relative"
                 >
-                  {activeChats.map((chat, index) => (
-                    <motion.div
-                      key={chat.id}
-                      variants={itemVariants}
-                      custom={index}
-                    >
-                      <div 
-                        className={`py-1.5 px-2 rounded-lg hover:bg-white/5 transition-all duration-200 cursor-pointer ${
-                          selectedChat === chat.id ? 'bg-white/10' : ''
-                        }`}
-                        onClick={() => setSelectedChat(chat.id)}
+                  <div className="absolute inset-0 overflow-y-auto hide-scrollbar space-y-1 pr-2">
+                    {activeChats.map((chat, index) => (
+                      <motion.div
+                        key={chat.id}
+                        variants={itemVariants}
+                        custom={index}
                       >
-                        <div className="flex items-center gap-2 mb-1">
-                          <UserCircle2 className="w-3.5 h-3.5 text-white/50" />
-                          <span className={`text-[10px] font-medium px-1.5 py-0.5 rounded-full ${
-                            chat.type === "Sales" ? "bg-blue-500/20 text-blue-200" : "bg-green-500/20 text-green-200"
-                          }`}>
-                            {chat.type}
-                          </span>
-                          <span className="text-[9px] font-light text-white/30 ml-auto">{chat.time}</span>
-                        </div>
-                        <div className="space-y-1">
-                          <div className="flex justify-start">
-                            <p className="text-[11px] leading-relaxed font-light text-white/60 bg-white/5 rounded-lg px-2 py-1 max-w-[85%]">
-                              {chat.message}
-                            </p>
+                        <div 
+                          className={`py-1.5 px-2 rounded-lg hover:bg-white/5 transition-all duration-200 cursor-pointer ${
+                            selectedChat === chat.id ? 'bg-white/10' : ''
+                          }`}
+                          onClick={() => setSelectedChat(chat.id)}
+                        >
+                          <div className="flex items-center gap-2 mb-1">
+                            <UserCircle2 className="w-3.5 h-3.5 text-white/50" />
+                            <span className={`text-[10px] font-medium px-1.5 py-0.5 rounded-full ${
+                              chat.type === "Sales" ? "bg-blue-500/20 text-blue-200" : "bg-green-500/20 text-green-200"
+                            }`}>
+                              {chat.type}
+                            </span>
+                            <span className="text-[9px] font-light text-white/30 ml-auto">{chat.time}</span>
                           </div>
-                          <div className="flex justify-end">
-                            <div className="bg-white/10 rounded-lg px-2 py-1 max-w-[85%]">
-                              {chat.status === 'completed' && (
-                                <p className="text-[11px] leading-relaxed font-light text-white/40">
-                                  {chat.aiResponse}
-                                </p>
-                              )}
-                              {chat.status === 'typing' && (
-                                <div className="h-2 flex items-center">
-                                  <TypingIndicator />
-                                </div>
-                              )}
-                              {chat.status === 'waiting' && (
-                                <p className="text-[9px] italic text-white/20">Waiting for response...</p>
-                              )}
+                          <div className="space-y-1">
+                            <div className="flex justify-start">
+                              <p className="text-[11px] leading-relaxed font-light text-white/60 bg-white/5 rounded-lg px-2 py-1 max-w-[85%]">
+                                {chat.message}
+                              </p>
+                            </div>
+                            <div className="flex justify-end">
+                              <div className="bg-white/10 rounded-lg px-2 py-1 max-w-[85%]">
+                                {chat.status === 'completed' && (
+                                  <p className="text-[11px] leading-relaxed font-light text-white/40">
+                                    {chat.aiResponse}
+                                  </p>
+                                )}
+                                {chat.status === 'typing' && (
+                                  <div className="h-2 flex items-center">
+                                    <TypingIndicator />
+                                  </div>
+                                )}
+                                {chat.status === 'waiting' && (
+                                  <p className="text-[9px] italic text-white/20">Waiting for response...</p>
+                                )}
+                              </div>
                             </div>
                           </div>
                         </div>
-                      </div>
-                      {index < activeChats.length - 1 && (
-                        <Separator className="my-1 bg-white/5" />
-                      )}
-                    </motion.div>
-                  ))}
+                        {index < activeChats.length - 1 && (
+                          <Separator className="my-1 bg-white/5" />
+                        )}
+                      </motion.div>
+                    ))}
+                  </div>
                 </motion.div>
               ) : (
                 <motion.div
