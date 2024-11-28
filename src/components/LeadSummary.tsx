@@ -18,7 +18,19 @@ export default function LeadSummary() {
   const [isHovered, setIsHovered] = useState(false);
   const [isFullscreen, setIsFullscreen] = useState(false);
   const [displayText, setDisplayText] = useState('');
+  const [isMobile, setIsMobile] = useState(false);
   const summaryText = "We processed 45 leads today. 30 showed interest, mostly asking about new car promotions and test drives. 10 weren't interested, citing budget concerns or no immediate plans. 5 didn't respond.";
+
+  useEffect(() => {
+    const checkScreenSize = () => {
+      setIsMobile(window.innerWidth <= 768);
+    };
+    
+    checkScreenSize();
+    window.addEventListener('resize', checkScreenSize);
+    
+    return () => window.removeEventListener('resize', checkScreenSize);
+  }, []);
 
   useEffect(() => {
     if (!isHovered) {
@@ -86,6 +98,24 @@ export default function LeadSummary() {
       satisfaction: 23,
       topic: 'pricing',
       progress: 15
+    },
+    {
+      id: '6',
+      customer: 'Linda Chen',
+      status: 'interested',
+      time: '5h ago',
+      satisfaction: 95,
+      topic: 'schedule',
+      progress: 88
+    },
+    {
+      id: '7',
+      customer: 'David Park',
+      status: 'abandoned',
+      time: '1h ago',
+      satisfaction: 40,
+      topic: 'vehicle',
+      progress: 28
     }
   ];
 
@@ -125,7 +155,7 @@ export default function LeadSummary() {
   return (
     <>
       <div 
-        className="fixed top-8 right-8 z-50 flex items-start gap-2"
+        className={`fixed ${isMobile ? 'top-4 right-4' : 'top-8 right-8'} z-50 flex items-start gap-2`}
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
       >
@@ -159,6 +189,7 @@ export default function LeadSummary() {
               exit={{ opacity: 0, x: 20, width: 0 }}
               transition={{ type: "spring", stiffness: 300, damping: 30 }}
               className="overflow-hidden relative z-10"
+              style={{ maxHeight: isMobile ? 'calc(100vh - 250px)' : '70vh' }}
             >
               <Card className="bg-black/40 backdrop-blur-sm border-white/10">
                 <CardContent className="p-3 w-[320px]">
@@ -170,7 +201,7 @@ export default function LeadSummary() {
                       <Maximize2 className="w-3.5 h-3.5 text-white/70" />
                     </button>
                   </div>
-                  <div className="space-y-3">
+                  <div className="space-y-3 max-h-[calc(100vh-300px)] overflow-y-auto hide-scrollbar pr-1">
                     {leads.map((lead, index) => (
                       <motion.div
                         key={lead.id}
