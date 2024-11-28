@@ -4,12 +4,17 @@ import path from 'path';
 
 export default defineConfig({
   plugins: [react()],
-  optimizeDeps: {
-    exclude: ['lucide-react'],
-  },
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "./src"),
     },
   },
+  optimizeDeps: {
+    include: ['react', 'react-dom', 'framer-motion', 'lucide-react', 'cobe'],
+  },
+  server: {
+    hmr: {
+      overlay: true
+    }
+  }
 });
